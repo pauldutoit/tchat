@@ -15,6 +15,15 @@ security:
             security: false
         main:
             anonymous: true
+            provider: in_database
+
+            form_login:
+                login_path: security_login
+                check_path: security_login
+            
+            logout:
+                path: security_logout
+                target: home
 
             # activate different ways to authenticate
 

@@ -44,20 +44,16 @@ class SecurityController extends AbstractController
      */
     public function login(Request $request, UserRepository $repo)
     {   
-        $user = new User();
-        $form = $this->createForm(LoginType::class, $user);
-        $form->handleRequest($request);
+        return $this->render('security/login.html.twig');
+    }
 
-        if($form->isSubmitted() && $form->isValid()){
-            //$repo->();
+    /**
+     * 
+     * @Route("/logout", name="security_logout")
+     */
+    public function logout()
+    {
 
-            return $this->redirectToRoute("security_conversations");
-        }
-
-
-        return $this->render('security/login.html.twig',[
-            'LoginForm' => $form->createView()
-        ]);
     }
 
      /**
