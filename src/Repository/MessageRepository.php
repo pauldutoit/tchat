@@ -47,4 +47,19 @@ class MessageRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function findMessagesByExpediteurAndDestinataire($envoyeur, $destinataire)
+    {   
+        $qb = $this->createQueryBuilder('m')
+            ->where('m.envoyeur = :envoyeur') // Envoie les messages ou toto et envoyeur
+            ->andWhere('m.destinataire = :destinataire') // envoie moi tout les messages de toto à titi
+            ->orWhere('m.envoyeur = :destinataire') // ou bien si titi et l'envoyeur envoie moi tout ses messages
+            ->andWhere('m.destinataire = :envoyeur') // envoie moi les messages de titi à toto   
+            ->setParameter('envoyeur', $envoyeur)
+            ->setParameter('destinataire', $destinataire)
+            ->getQuery()
+        ;
+        return $qb->execute();
+    }
 }

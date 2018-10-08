@@ -56,12 +56,4 @@ class SecurityController extends AbstractController
 
     }
 
-     /**
-     * @Route("/conversations", name="security_conversations")
-     */
-    public function conv()
-    {   
-        return $this->render('security/conversations.html.twig');
-    }
-
 }

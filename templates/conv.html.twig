@@ -34,10 +34,38 @@
                     </div>
                 </nav>
 
-        {% block body %}
+        {% if app.user %}
+                <div class="form-group row">
+                    <div class="form-group col-sm-2" style="margin:10px;">   
+                        <h2>Liste des amis : </h2>
+                            <ul class="list-group">
+                                {% for user in users %}
+                                    {% if user.username is same as(app.user.username) %}{% else %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center"><a href="{{ path('conversation_conversationTo', {'id': user.id}) }}">{{ user.username }}</a><span class="badge badge-primary badge-pill">3</span></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            {% block body %}
+                            {% endblock %}
+                        </div>                    
+                    </div>
+                </div>
+
+                {% else %}
+            <div style="margin-top:40px;text-align:center;" class="example-wrapper">
+            <h1>Vous n'êtes pas connecté(e) ... :(</h1>
+            <p><a href="{{ path('security_login') }}">Connectez-vous</a> ou <a href="{{ path('security_registration') }}"> inscrivez-vous </a> pour accéder aux conversations ! </p>
+            </div>
+        {% endif %}
+        
+        {% block javascripts %}
+        
         {% endblock %}
-        
-        
-        {% block javascripts %}{% endblock %}
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    
     </body>
 </html>
