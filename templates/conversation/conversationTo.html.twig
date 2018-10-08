@@ -1,4 +1,4 @@
-{% extends 'conv.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}{% endblock %}
 
@@ -7,24 +7,52 @@
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
-
-<div class="container">
-    <div class="form-group">
-        <h1 style="text-align:center;"> {{ destinataire|capitalize }} </h1>
+{% if app.user %}
+<div class="form-group row">
+    <div class="form-group col-sm-2" style="margin:10px;">   
+        <h2>Amis:</h2>
+            <ul class="list-group">
+                {% for user in users %}
+                    {% if user.username is same as(app.user.username) %}{% else %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center"><a href="{{ path('conversation_conversationTo', {'id': user.id}) }}">{{ user.username }}</a><span class="badge badge-primary badge-pill">+99</span></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
     </div>
-    <div style="height:350px;overflow:scroll;" class="example-wrapper border">
-        <ul class="list-group list-group-flush">
-            {% for message in messages %}
-            <li class="list-group-item"><span style="font-size:12px;">{{ message.createdAt | date('h:i d/m/Y') }}</span></br> {{ message.contenu }} </li>
-            {% endfor %}
-        </ul>    
-    </div>
-
-    <div class="example-wrapper">
-        {{ form_start(form) }}
-        {{ form_row(form.contenu,{'label': "Ecrivez ici votre message"}) }}
-        <button class="btn btn-success">Envoyer</button>
-        {{ form_end(form) }}
+    <div class="col-md-8">
+        <div class="form-group">
+                <div class="container">
+                        <div class="form-group">
+                            <h1 style="text-align:center;"> {{ destinataire|capitalize }} </h1>
+                        </div>
+                        <div style="height:350px;overflow:scroll;" class="example-wrapper border">
+                            <ul class="list-group list-group-flush">
+                                {% for message in messages %}
+                                <li class="list-group-item">
+                                        <strong>{{ message.envoyeur|capitalize }}</strong>
+                                    </br> {{ message.contenu }}
+                                </li>
+                                {% endfor %}
+                            </ul>    
+                        </div>
+                    
+                        <div class="example-wrapper">
+                            {{ form_start(form) }}
+                            {{ form_row(form.contenu,{'label': "Ecrivez ici votre message"}) }}
+                            <button class="btn btn-success">Envoyer</button>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+        </div>                    
     </div>
 </div>
+
+{% else %}
+<div style="margin-top:40px;text-align:center;" class="example-wrapper">
+<h1>Vous n'êtes pas connecté(e) ... :(</h1>
+<p><a href="{{ path('security_login') }}">Connectez-vous</a> ou <a href="{{ path('security_registration') }}"> inscrivez-vous </a> pour accéder aux conversations ! </p>
+</div>
+{% endif %}
+
+
 {% endblock %}

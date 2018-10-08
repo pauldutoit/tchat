@@ -41,7 +41,7 @@
                             <ul class="list-group">
                                 {% for user in users %}
                                     {% if user.username is same as(app.user.username) %}{% else %}
-                                    <li class="list-group-item d-flex justify-content-between align-items-center"><a href="{{ path('conversation_conversationTo', {'id': user.id}) }}">{{ user.username }}</a><span class="badge badge-primary badge-pill">3</span></li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center"><a href="{{ path('conversation_conversationTo', {'id': user.id}) }}">{{ user.username }}</a><span class="badge badge-primary badge-pill"></span></li>
                                     {% endif %}
                                 {% endfor %}
                             </ul>
